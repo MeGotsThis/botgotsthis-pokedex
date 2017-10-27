@@ -316,7 +316,7 @@ SELECT COUNT(*)
 '''
             await cursor.execute(query, (pokemonId, gameIds[0],))
             tmCount: int
-            tmCount, = await cursor.fetchone() or [0]
+            tmCount, = await cursor.fetchone() or (0,)
             message += f'; Learns {tmCount} TMs'
             query = '''
 SELECT (SELECT name
@@ -365,13 +365,13 @@ SELECT (SELECT name
 
             query = 'SELECT name FROM gen1_pokemon WHERE pokedexNumber=?'
             await cursor.execute(query, (number,))
-            name, = await cursor.fetchone() or [None]
+            name, = await cursor.fetchone() or (None,)
             if name:
                 messages.append(f'Pokemon by Dex number: {name}')
 
             query = 'SELECT name FROM gen1_pokemon WHERE gameIndexNumber=?'
             await cursor.execute(query, (number,))
-            name, = await cursor.fetchone() or [None]
+            name, = await cursor.fetchone() or (None,)
             if name:
                 if messages:
                     messages.append(f'by Index number: {name}')
@@ -390,7 +390,7 @@ SELECT (SELECT name
                 ]
             for query, item in queries:
                 await cursor.execute(query, (number,))
-                name, = await cursor.fetchone() or [None]
+                name, = await cursor.fetchone() or (None,)
                 if name:
                     messages.append(f'{item}: {name}')
             queries = [
@@ -408,7 +408,7 @@ SELECT name
             ]
             for query, item in queries:
                 await cursor.execute(query, (int(number), gameIds[1],))
-                name, = await cursor.fetchone() or [None]
+                name, = await cursor.fetchone() or (None,)
                 if name:
                     messages.append(f'{item}: {name}')
             if not messages:
@@ -660,7 +660,7 @@ SELECT COUNT(DISTINCT pokedexNumber)
 '''
                 await cursor.execute(query, (moveId, gameIds[0]))
                 tmhmCount: int
-                tmhmCount, = await cursor.fetchone() or [0]
+                tmhmCount, = await cursor.fetchone() or (0,)
                 item: str
                 if move[6] is not None:
                     item = f'TM{move[6]:02}'
@@ -723,7 +723,7 @@ Speed: {pokemon[5]}, Special: {pokemon[6]}'''
 SELECT pokedexNumber, name FROM gen1_pokemon WHERE pokedexNumber=?'''
                 await cursor.execute(query, (pokemonId,))
                 dex: int
-                name, dex = await cursor.fetchone() or ['', 0]
+                name, dex = await cursor.fetchone() or ('', 0)
                 if name:
                     yield f'Pokemon Name: {name}, Pokedex Number: {dex}'
 
@@ -820,7 +820,7 @@ SELECT COUNT(*)
 '''
                     await cursor.execute(query, params)
                     tmCount: int
-                    tmCount, = await cursor.fetchone() or [0]
+                    tmCount, = await cursor.fetchone() or (0,)
                     message = f'Learns {tmCount} TMs'
                     query = '''
 SELECT (SELECT name
@@ -921,7 +921,7 @@ SELECT COUNT(DISTINCT pokedexNumber)
     WHERE moveIndex=? AND gameIndex=?
 '''
                     await cursor.execute(query, params)
-                    count, = await cursor.fetchone() or [0]
+                    count, = await cursor.fetchone() or (0,)
                     yield f'{count} Pokemon learns {item}'
 
     async def pokemonEvolve(self) -> AsyncIterator[str]:
@@ -939,7 +939,7 @@ SELECT pokedexNumber, name FROM gen1_pokemon WHERE pokedexNumber=?
             await cursor.execute(query, (int(pokemonId),))
             dex: int
             name: str
-            dex, name = await cursor.fetchone() or [0, '']
+            dex, name = await cursor.fetchone() or (0, '')
             if not dex:
                 yield 'Pokemon Not Found'
                 return
@@ -1036,7 +1036,7 @@ SELECT COUNT(DISTINCT pokedexNumber)
 '''
                 await cursor.execute(query, params)
                 tmhmCount: int
-                tmhmCount, = await cursor.fetchone() or [0]
+                tmhmCount, = await cursor.fetchone() or (0,)
                 yield f'{tmhmCount} Pokemon learns {item}'
 
     async def pokemonTm(self, isFull: bool) -> AsyncIterator[str]:
@@ -1098,7 +1098,7 @@ SELECT COUNT(DISTINCT pokedexNumber)
     '''
                 await cursor.execute(query, params)
                 tmhmCount: int
-                tmhmCount, = await cursor.fetchone() or [0]
+                tmhmCount, = await cursor.fetchone() or (0,)
                 yield f'{tmhmCount} Pokemon learns {item}'
 
     async def pokemonHm(self, isFull: bool) -> AsyncIterator[str]:
@@ -1160,7 +1160,7 @@ SELECT COUNT(DISTINCT pokedexNumber)
 '''
                 await cursor.execute(query, params)
                 tmhmCount: int
-                tmhmCount, = await cursor.fetchone() or [0]
+                tmhmCount, = await cursor.fetchone() or (0,)
                 yield f'{tmhmCount} Pokemon learns {item}'
 
     async def pokemonLocation(self, isFull: bool) -> AsyncIterator[str]:
