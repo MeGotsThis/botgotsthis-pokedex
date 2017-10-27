@@ -905,9 +905,10 @@ SELECT p.name
 '''
                     pokemon: List[str] = []
                     async for name, in await cursor.execute(query, params):
-                        l = sum(len(p) + 2 for p in pokemon) + len(name)
-                        l += len('These Pokemon learns TM00: ')
-                        if l > bot.config.messageLimit:
+                        length: int
+                        length = sum(len(p) + 2 for p in pokemon) + len(name)
+                        length += len('These Pokemon learns TM00: ')
+                        if length > bot.config.messageLimit:
                             yield (f'These Pokemon learns {item}: '
                                    + ', '.join(pokemon))
                             pokemon.clear()
@@ -1018,9 +1019,10 @@ SELECT p.name
                 pokemon: List[str] = []
                 name: str
                 async for name, in await cursor.execute(query, params):
-                    l: int = sum(len(p) + 2 for p in pokemon) + len(name)
-                    l += len('These Pokemon learns TM00: ')
-                    if l > bot.config.messageLimit:
+                    length: int
+                    length = sum(len(p) + 2 for p in pokemon) + len(name)
+                    length += len('These Pokemon learns TM00: ')
+                    if length > bot.config.messageLimit:
                         yield (f'These Pokemon learns {item}: '
                                + ', '.join(pokemon))
                         pokemon.clear()
@@ -1079,9 +1081,10 @@ SELECT p.name
                 pokemon: List[str] = []
                 name: str
                 async for name, in await cursor.execute(query, params):
-                    l = sum(len(p) + 2 for p in pokemon) + len(name)
-                    l += len('These Pokemon learns TM00: ')
-                    if l > bot.config.messageLimit:
+                    length: int
+                    length = sum(len(p) + 2 for p in pokemon) + len(name)
+                    length += len('These Pokemon learns TM00: ')
+                    if length > bot.config.messageLimit:
                         yield (f'These Pokemon learns TM{move[6]:02}:'
                                + ', '.join(pokemon))
                         pokemon.clear()
@@ -1140,9 +1143,10 @@ SELECT p.name
                 pokemon: List[str] = []
                 name: str
                 async for name, in await cursor.execute(query, params):
-                    l: int = sum(len(p) + 2 for p in pokemon) + len(name)
-                    l += len('These Pokemon learns TM00: ')
-                    if l > bot.config.messageLimit:
+                    length: int
+                    length = sum(len(p) + 2 for p in pokemon) + len(name)
+                    length += len('These Pokemon learns TM00: ')
+                    if length > bot.config.messageLimit:
                         yield (f'These Pokemon learns {item}:'
                                + ', '.join(pokemon))
                         pokemon.clear()
