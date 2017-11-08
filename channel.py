@@ -1,4 +1,4 @@
-﻿from typing import Dict, Tuple, Type
+﻿from typing import AsyncIterator, Dict, Tuple, Type
 
 from bot import data  # noqa: F401
 from lib.data import ChatCommandArgs
@@ -56,7 +56,8 @@ async def commandPokeDex(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonDex()
+    messages: AsyncIterator[str] = info.pokemonDex()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -70,7 +71,8 @@ async def commandPokeEntry(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonEntry()
+    messages: AsyncIterator[str] = info.pokemonEntry()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -84,7 +86,8 @@ async def commandPokeIndex(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonIndex()
+    messages: AsyncIterator[str] = info.pokemonIndex()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -98,7 +101,8 @@ async def commandPokeMove(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonMove()
+    messages: AsyncIterator[str] = info.pokemonMove()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -112,7 +116,8 @@ async def commandPokeStats(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonStats()
+    messages: AsyncIterator[str] = info.pokemonStats()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -126,7 +131,8 @@ async def commandPokeEvolve(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonEvolve()
+    messages: AsyncIterator[str] = info.pokemonEvolve()
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -140,10 +146,13 @@ async def commandPokeLearn(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonLearn(args.message.command.endswith(('-full', '-level')),
-                      args.message.command.endswith(('-full', '-tmhm')),
-                      args.message.command.endswith(('-full', '-egg')),
-                      args.message.command.endswith(('-full', '-tutor')))
+    messages: AsyncIterator[str]
+    messages = info.pokemonLearn(
+        args.message.command.endswith(('-full', '-level')),
+        args.message.command.endswith(('-full', '-tmhm')),
+        args.message.command.endswith(('-full', '-egg')),
+        args.message.command.endswith(('-full', '-tutor')))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -157,7 +166,9 @@ async def commandPokeTmHms(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonTmHm(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonTmHm(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -171,7 +182,9 @@ async def commandPokeTm(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonTm(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonTm(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -185,7 +198,9 @@ async def commandPokeHm(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonHm(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonHm(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -199,7 +214,9 @@ async def commandPokeLocation(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonLocation(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonLocation(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -213,7 +230,9 @@ async def commandPokeWild(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonWild(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonWild(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -227,7 +246,9 @@ async def commandPokeSurf(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonSurf(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonSurf(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
 
 
@@ -241,5 +262,7 @@ async def commandPokeFish(args: ChatCommandArgs) -> bool:
     game: str
     info: gen.Generation
     game, info = await _getGame(args.database, args.chat, args.message.query)
-    info.pokemonFish(args.message.command.endswith('-full'))
+    messages: AsyncIterator[str]
+    messages = info.pokemonFish(args.message.command.endswith('-full'))
+    args.chat.send([message async for message in messages])
     return True
