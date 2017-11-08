@@ -209,7 +209,8 @@ SELECT pokedexNumber, name, heightMeters, weightKilograms,
             if weightLbs == 0:
                 weightLbs = round(float(pokemon[3]) * 2.205, 1)
             heightInches: int = round(float(pokemon[2]) * 39.3701)
-            pokedex: str = pokemon[4].replace('\n', ' ').replace('\x0c', ' ')
+            pokedex: str = pokemon[4].replace('\r\n', ' ').replace('\n', ' ')
+            pokedex = pokedex.replace('\x0c', ' ')
 
             yield f'''\
 Pokemon Name: {pokemon[1]}, Pokedex Number: {pokemon[0]}, \
