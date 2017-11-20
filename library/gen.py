@@ -1,16 +1,26 @@
-from typing import AsyncIterator
+from types import TracebackType
+from typing import AsyncIterator, Optional, Type
 
 from lib.database import DatabaseMain
 
 
 class Generation:
     def __init__(self,
-                 database: DatabaseMain,
                  query: str,
                  game: str) -> None:
-        self.database: DatabaseMain = database
+        self.database: DatabaseMain = DatabaseMain.acquire()
         self.query: str = query
         self.game = game
+
+    async def __aenter__(self) -> 'Generation':
+        await self.database.connect()
+        return self
+
+    async def __aexit__(self,
+                        type: Optional[Type[BaseException]],
+                        value: Optional[BaseException],
+                        traceback: Optional[TracebackType]) -> None:
+        await self.database.close()
 
     async def pokemonDex(self) -> AsyncIterator[str]:
         return
